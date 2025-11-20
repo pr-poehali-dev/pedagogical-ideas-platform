@@ -1,0 +1,9 @@
+{
+  "tests": [
+    {
+      "name": "Get publications list",
+      "method": "GET",
+      "expectedStatus": 200
+    }
+  ]
+}
