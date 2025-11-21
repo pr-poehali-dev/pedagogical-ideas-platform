@@ -49,14 +49,16 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      <div className="fixed inset-0 mesh-gradient pointer-events-none" />
+      <div className="relative z-10">
       <Header 
         onAuthClick={() => setAuthDialogOpen(true)} 
         user={user} 
         onLogout={handleLogout}
       />
 
-      <section id="home" className="py-20 bg-gradient-to-b from-primary/5 to-background">
+      <section id="home" className="py-20 animated-gradient">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center space-y-6 animate-fade-in">
             <h1 className="text-5xl md:text-6xl font-bold text-primary">
@@ -212,6 +214,7 @@ const Index = () => {
         onClose={() => setAuthDialogOpen(false)}
         onAuth={handleAuth}
       />
+      </div>
     </div>
   );
 };
