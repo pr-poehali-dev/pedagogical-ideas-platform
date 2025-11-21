@@ -11,6 +11,7 @@ const Index = () => {
   const [user, setUser] = useState<any>(null);
   const [sessionToken, setSessionToken] = useState<string>('');
   const [publications, setPublications] = useState<any[]>([]);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
@@ -22,6 +23,13 @@ const Index = () => {
     }
 
     loadPublications();
+
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const loadPublications = async () => {
@@ -50,7 +58,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      <div className="fixed inset-0 mesh-gradient pointer-events-none" />
+      <div 
+        className="fixed inset-0 mesh-gradient pointer-events-none" 
+        style={{ transform: `translateY(${scrollY * 0.5}px)` }}
+      />
       <div className="relative z-10">
       <Header 
         onAuthClick={() => setAuthDialogOpen(true)} 
@@ -58,9 +69,12 @@ const Index = () => {
         onLogout={handleLogout}
       />
 
-      <section id="home" className="py-20 animated-gradient">
+      <section id="home" className="py-20 animated-gradient relative">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center space-y-6 animate-fade-in">
+          <div 
+            className="max-w-4xl mx-auto text-center space-y-6 animate-fade-in"
+            style={{ transform: `translateY(${scrollY * 0.15}px)` }}
+          >
             <h1 className="text-5xl md:text-6xl font-bold text-primary">
               Платформа для обмена педагогическими идеями
             </h1>
@@ -81,7 +95,13 @@ const Index = () => {
 
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div 
+            className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto"
+            style={{ 
+              transform: `translateY(${Math.max(0, (scrollY - 400) * 0.1)}px)`,
+              opacity: Math.min(1, 1 - (scrollY - 400) * 0.0005)
+            }}
+          >
             <Card className="text-center hover-scale">
               <CardHeader>
                 <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
